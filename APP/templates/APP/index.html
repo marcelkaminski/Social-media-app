@@ -1,5 +1,15 @@
 {% extends "APP/layout.html" %}
+{% load static %}
+
+{% block title %}News Feed{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'APP/loading_posts.js' %}"></script>
+{% endblock %}
 
 {% block body %}
-    TODO
+<div id=posts>
+</div>
 {% endblock %}
+

@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import User, Post
+from .forms import PostForm
 
 
 def login_view(request):
@@ -61,6 +63,24 @@ def register(request):
         
 def index(request):
     return render(request, "APP/index.html")
+
+
+@login_required
+def add_post(request):
+    if request.method == "GET":
+        return render(request, "APP/add.html", {"form": PostForm})
+
+    elif request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            user = User.objects.get(username=request.user)
+            obj.author = user
+            obj.save()
+            form = PostForm
+        return render(request, "APP/add.html", {"form": PostForm})
+
+
 def get_all_posts(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
