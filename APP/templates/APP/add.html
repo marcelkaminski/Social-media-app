@@ -1,0 +1,11 @@
+{% extends "APP/layout.html" %}
+
+{% block body %}
+    <div>
+        <form method='POST'> {% csrf_token %}
+        {{form.as_p}}
+        <button type = 'submit'>Add Post</button>
+        </form>
+    </div>
+
+{% endblock %}

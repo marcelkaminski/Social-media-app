@@ -17,5 +17,5 @@ class Post(models.Model):
             "id": self.id,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "author": self.author.username,
-            "content": self.body
+            "content": self.content
         }

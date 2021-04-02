@@ -61,3 +61,7 @@ def register(request):
         
 def index(request):
     return render(request, "APP/index.html")
+def get_all_posts(request):
+    posts = Post.objects.all()
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
