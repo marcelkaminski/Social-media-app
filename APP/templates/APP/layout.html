@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}News Feed{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'APP/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav>
+            <a class="navbar-brand" href="#">Network</a>
+            <div>
+              <ul>
+                <li>
+                  <a href="#">All Posts</a>
+                </li>
+                <li>
+                    <a href="#">Following</a>
+                </li>
+                <li>
+                    <a href="#">Log Out</a>
+                 </li>
+              </ul>
+            </div>
+          </nav>
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
