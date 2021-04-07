@@ -22,6 +22,9 @@
                 <li>
                   <a href="{% url 'index' %}">All Posts</a>
                 </li>
+                <li>
+                  <a href="{% url 'search' %}">Search</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li>
                         <a href="#">Following</a>

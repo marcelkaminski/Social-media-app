@@ -13,7 +13,7 @@ function load_posts()
             item.innerHTML = `<div>
                 ${myJSON}
                 </div>`;
-          document.querySelector("#posts").appendChild(item);
+          document.querySelector("#search-result").appendChild(item);
         });
     });
 }

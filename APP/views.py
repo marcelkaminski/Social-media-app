@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+import json
 
 from .models import User, Post
 from .forms import PostForm
@@ -85,3 +86,28 @@ def get_all_posts(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+
+def search(request):
+        return render(request, "APP/search.html")
+
+
+def search_result(request, query):
+    users = list(User.objects.values_list('username', flat=True))
+    result = list()
+    for s in users:
+        if query in s.lower():
+            d = {}
+            d["username"] = s
+            result.append(d)
+    if result:
+        return JsonResponse(result, safe=False)
+    else:
+        return JsonResponse([{"message":"No results"}], safe=False)
+
+
+
+
+
+
+
