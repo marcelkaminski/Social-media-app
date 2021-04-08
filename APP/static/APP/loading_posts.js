@@ -10,10 +10,10 @@ function load_posts()
         posts.forEach(element => {
             var item = document.createElement("div");
             var myJSON = JSON.stringify(element);
-            item.innerHTML = `<div>
+            item.innerHTML = `<li>
                 ${myJSON}
-                </div>`;
-          document.querySelector("#search-result").appendChild(item);
+                </li>`;
+          document.querySelector("#posts").appendChild(item);
         });
     });
 }

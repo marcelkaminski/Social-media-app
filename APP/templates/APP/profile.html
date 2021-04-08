@@ -3,15 +3,13 @@
 
 {% block title %}News Feed{% endblock %}
 
-
-{% block script %}
-    <script src="{% static 'APP/loading_posts.js' %}"></script>
-{% endblock %}
-
 {% block body %}
-<ul>
-<div id=posts>
+<div id=user-data>
+<h1>{{ user_data }}<h1>
 </div>
-</ul>
+<div id=posts>
+{% for post in posts %}
+    <li>{{ post }}</li>
+{% endfor %}
 {% endblock %}
 

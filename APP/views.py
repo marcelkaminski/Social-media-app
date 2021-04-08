@@ -88,11 +88,11 @@ def get_all_posts(request):
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 
-def search(request):
-        return render(request, "APP/search.html")
+def get_search_view(request):
+    return render(request, "APP/search.html")
 
 
-def search_result(request, query):
+def get_search_result(request, query):
     users = list(User.objects.values_list('username', flat=True))
     result = list()
     for s in users:
@@ -106,8 +106,15 @@ def search_result(request, query):
         return JsonResponse([{"message":"No results"}], safe=False)
 
 
+def get_profile_view(request, name):
+    
+    user = User.objects.get(username=name)
+    posts = user.posts.all()
+    posts = posts.order_by("-timestamp").all()
 
+    return render(request, "APP/profile.html",
+    {
+        "user_data": user.serialize(),
+        "posts": [post.serialize() for post in posts]
 
-
-
-
+    })
