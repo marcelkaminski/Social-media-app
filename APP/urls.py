@@ -16,4 +16,5 @@ urlpatterns = [
     path("posts", views.get_all_posts, name="posts"),
     #get json of search result
     path("search/<str:query>", views.get_search_result, name="search_result"),
+    path("like/<int:pk>", views.like, name="like"),
     ]

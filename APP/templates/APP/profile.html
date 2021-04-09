@@ -4,12 +4,32 @@
 {% block title %}News Feed{% endblock %}
 
 {% block body %}
-<div id=user-data>
-<h1>{{ user_data }}<h1>
-</div>
-<div id=posts>
-{% for post in posts %}
-    <li>{{ post }}</li>
-{% endfor %}
+    <div id='user-data'>
+        <h1>{{ user_data }}<h1>
+    </div>
+    <div id='posts'>
+        {% for post in posts %}
+            <div class='card w-75'>
+                <li>
+                    {{ post.serialize }}
+                </li>
+                
+            {% if user.is_authenticated %}
+                {% if request.user in post.likes.all %}
+                    <form action={% url 'like' pk=post.id %} method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Unlike"/>
+                    </form>
+                {% else %}
+                    <form action={% url 'like' pk=post.id %} method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Like"/>
+                    </form>
+                {% endif %}
+            {% endif %}
+            Likes: {{post.likes.count}}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 

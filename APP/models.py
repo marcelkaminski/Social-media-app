@@ -14,6 +14,7 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey("User", on_delete=models.CASCADE, related_name="posts")
     content = models.TextField(blank=True, null=True)
+    likes = models.ManyToManyField("User", blank=True, related_name="post_likes")
 
     def serialize(self):
         return {

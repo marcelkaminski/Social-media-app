@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
@@ -79,7 +79,7 @@ def add_post(request):
             obj.author = user
             obj.save()
             form = PostForm
-        return render(request, "APP/add.html", {"form": PostForm})
+        return redirect(f'/profile/{request.user}')
 
 
 def get_all_posts(request):
@@ -108,13 +108,22 @@ def get_search_result(request, query):
 
 def get_profile_view(request, name):
     
-    user = User.objects.get(username=name)
+    user = get_object_or_404(User, username=name)
     posts = user.posts.all()
     posts = posts.order_by("-timestamp").all()
 
     return render(request, "APP/profile.html",
     {
         "user_data": user.serialize(),
-        "posts": [post.serialize() for post in posts]
+        "posts": posts
 
     })
+
+
+def like(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
