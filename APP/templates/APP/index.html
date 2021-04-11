@@ -3,15 +3,17 @@
 
 {% block title %}News Feed{% endblock %}
 
-
 {% block script %}
-    <script src="{% static 'APP/loading_posts.js' %}"></script>
+    <script src="{% static 'APP/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<ul>
-<div id=posts>
+<div id='posts-box'></div>
+<div id='spinner-box' class='not-visible'>
+    <div class='spinner-border text-primary' role='status'></div>
 </div>
-</ul>
+<div id='loading-box'>
+    <button class='btn btn-primary' id='load-btn'>Load More</button>
+</div>
 {% endblock %}
 

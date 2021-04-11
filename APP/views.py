@@ -82,9 +82,12 @@ def add_post(request):
         return redirect(f'/profile/{request.user}')
 
 
-def get_all_posts(request):
+def get_posts(request, num_posts):
+    upper = num_posts
+    lower = upper - 3
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
+    posts = posts[lower:upper]
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 
