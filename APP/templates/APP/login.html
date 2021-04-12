@@ -19,6 +19,6 @@
         <input type="submit" value="Login">
     </form>
 
-    Don't have an account? <a href="{% url 'register' %}">Register here.</a>
-
+    Don't have an account? <a href="{% url 'register' %}">Register here.</a><br>
+    <a href="{% url 'social:begin' 'github' %}">Signin With Github</a>
 {% endblock %}
