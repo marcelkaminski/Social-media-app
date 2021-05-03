@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block body %}
-<h1> Search user <h1>
-<form>
-    <input id="user-name" placeholder="User name" type="text">
+<h1> Search user </h1>
+<form method="get">
+    <input id="user-name" name="username" placeholder="User name" type="text">
     <input type="submit" value="Search">
 </form>
 <div id="search-result"></div>

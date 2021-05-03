@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function myFunction(arr) {
        arr.map(post =>{
-           postsBox.innerHTML += `<div class='card w-75'>
+           postsBox.innerHTML += `<div class='card'>
            ${post.author} | ${post.timestamp}
            <br>
            ${post.content}
