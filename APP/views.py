@@ -72,7 +72,7 @@ def add_post(request):
         return render(request, "APP/add.html", {"form": PostForm})
 
     elif request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST,request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
             user = User.objects.get(username=request.user)

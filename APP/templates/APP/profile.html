@@ -12,6 +12,9 @@
             <div class='card w-75'>
                 <li>
                     {{ post.serialize }}
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}">
+                    {% endif %}
                 </li>
                 
             {% if user.is_authenticated %}
