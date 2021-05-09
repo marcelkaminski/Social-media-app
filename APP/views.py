@@ -122,6 +122,12 @@ def get_profile_view(request, name):
 
     })
 
+def get_profile_posts(request, name):
+    user = get_object_or_404(User, username=name)
+    posts = user.posts.all()
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
+
 
 def like(request, pk):
     post = get_object_or_404(Post, id=pk)

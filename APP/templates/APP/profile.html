@@ -7,6 +7,8 @@
     <div id='user-data'>
         <h1>{{ user_data }}<h1>
     </div>
+    <div id="App"></div>
+    <!--
     <div id='posts'>
         {% for post in posts %}
             <div class='card w-75'>
@@ -16,7 +18,7 @@
                     <img src="{{ post.image.url }}">
                     {% endif %}
                 </li>
-                
+              
             {% if user.is_authenticated %}
                 {% if request.user in post.likes.all %}
                     <form action={% url 'like' pk=post.id %} method="POST">
@@ -31,8 +33,17 @@
                 {% endif %}
             {% endif %}
             Likes: {{post.likes.count}}
+             
             </div>
         {% endfor %}
     </div>
+    -->
 {% endblock %}
 
+{% block script %}
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="{% static 'APP/ReactPost.js' %}" type="text/babel"></script>
+    <script> var url = "/profileposts/{{ user_data.username }}";</script>
+{% endblock %}
