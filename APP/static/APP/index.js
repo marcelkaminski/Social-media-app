@@ -57,9 +57,11 @@ class Posts extends React.Component {
     function load_posts()
     {
     var url = `/posts/${visible}`;
+
     feed.updateState(url);
 
     }
+
     
     loadBtn.addEventListener('click', ()=>{
         visible += 3;
