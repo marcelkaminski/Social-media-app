@@ -18,9 +18,15 @@ class Post(models.Model):
     likes = models.ManyToManyField("User", blank=True, related_name="post_likes")
 
     def serialize(self):
+        if self.image:
+            url = self.image.url
+        else:
+            url = ""
+            
         return {
             "id": self.id,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "author": self.author.username,
-            "content": self.content
+            "content": self.content,
+            "image": url
         }

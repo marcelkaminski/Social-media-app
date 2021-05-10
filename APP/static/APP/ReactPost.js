@@ -23,24 +23,22 @@ class Posts extends React.Component {
 
     render() {
         return (
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Author</th>
-                        <th>Content</th>
-                    </tr>
-                </thead>
-                <tbody>
+
+                <div>
                     {this.state.posts && this.state.posts.map(post => {
-                        return <tr>
-                            <td>{post.id}</td>
-                            <td>{post.author}</td>
-                            <td>{post.content}</td>
-                        </tr>
+                        return <div class="card w-75">
+                                    <div class="card-header">
+                                    {post.author} | {post.timestamp} | {post.id}
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">{post.content} .</p>
+                                        <a href="#" class="btn btn-primary">Like</a>
+                                    </div>
+                                    <img class="card-img-bottom" src={post.image} alt="Card image cap"></img>
+                        </div>
                     })}
-                </tbody>
-            </table>
+                </div>
+
         );
     }
 }
