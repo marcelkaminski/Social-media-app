@@ -72,7 +72,7 @@ def add_post(request):
         return render(request, "APP/add.html", {"form": PostForm})
 
     elif request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST,request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
             user = User.objects.get(username=request.user)
@@ -121,6 +121,12 @@ def get_profile_view(request, name):
         "posts": posts
 
     })
+
+def get_profile_posts(request, name):
+    user = get_object_or_404(User, username=name)
+    posts = user.posts.all()
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
 
 
 def like(request, pk):

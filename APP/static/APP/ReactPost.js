@@ -6,16 +6,15 @@ class Posts extends React.Component {
       };
     }
 
-    updateState(url) {
-    console.log(url);
+    componentDidMount() {
     // get all entities - GET
-    fetch(`${url}`, {
+    fetch(`${this.props.url}`, {
     "method": "GET",
     })
     .then(response => response.json())
     .then(response => {
     this.setState({
-        posts: [...this.state.posts, response[0], response[1], response[2]]
+    posts: response
     })
     })
     .catch(err => { console.log(err); 
@@ -46,33 +45,5 @@ class Posts extends React.Component {
     }
 }
 
-    let domContainer = document.querySelector('#App');
-    var feed = ReactDOM.render(<Posts/>, domContainer);
-
-    const spinerBox = document.getElementById('spinner-box');
-    const loadBtn = document.getElementById('load-btn');
-    
-    let visible = 3;
-    
-    function load_posts()
-    {
-    var url = `/posts/${visible}`;
-
-    feed.updateState(url);
-
-    }
-
-    
-    loadBtn.addEventListener('click', ()=>{
-        visible += 3;
-        spinerBox.classList.remove('not-visible')
-        setTimeout(() => {
-            load_posts();
-            spinerBox.classList.add('not-visible')
-
-        }, 500)
-    });
-    load_posts();
-
-
-
+let domContainer = document.querySelector('#App');
+ReactDOM.render(<Posts url={url}/>, domContainer);
