@@ -31,11 +31,11 @@ class Posts extends React.Component {
                                     {post.author} | {post.timestamp} | {post.id}
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">{post.content} .</p>
+                                        <p class="card-text">{post.content}</p>
+                                        <img class="card-img-bottom" src={post.image} alt="Card image cap"></img><br/>
                                         <a href="#" class="btn btn-primary">Like</a>
                                     </div>
-                                    <img class="card-img-bottom" src={post.image} alt="Card image cap"></img>
-                        </div>
+                                </div>
                     })}
                 </div>
 
