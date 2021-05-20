@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
 
-from .models import User, Post, Comment
+from .models import User, Post, Comment, Profile
 from .forms import PostForm, CommentForm
 
 
@@ -20,7 +20,7 @@ def login_view(request):
 
         # Check if authentication successful
         if user is not None:
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "APP/login.html", {
@@ -52,11 +52,13 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            profile = Profile(user=user)
+            profile.save()
         except IntegrityError:
             return render(request, "APP/register.html", {
                 "message": "Username already taken."
             })
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "APP/register.html")
@@ -115,12 +117,19 @@ def get_profile_view(request, name):
     posts = user.posts.all()
     posts = posts.order_by("-timestamp").all()
 
+    following = Profile.objects.get(user = user).following.all()
+    followers = Profile.objects.get(user = user).followers.all()
+
+    profile = Profile.objects.get(user=user)
+
     return render(request, "APP/profile.html",
     {
         "user_data": user,
         "posts": posts,
-        "CommentForm": CommentForm
-
+        "CommentForm": CommentForm,
+        "following": len(following),
+        "followers": len(followers),
+        "profile": profile
     })
 
 def get_profile_posts(request, name):
@@ -150,3 +159,42 @@ def comment(request, pk):
             post = get_object_or_404(Post, id=pk)
             post.comments.add(obj)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def follow(request, following_user, followed_user):
+    user1 = User.objects.get(username=following_user)
+    user2 = User.objects.get(username=followed_user)
+    profile1 = Profile.objects.get(user=user1)
+    profile2 = Profile.objects.get(user=user2)
+
+    if profile2.user in profile1.followers.all():
+        profile1.followers.remove(user2)
+        profile2.following.remove(user1)
+    else:
+        profile1.followers.add(user2)
+        profile2.following.add(user1)
+    profile1.save()
+    profile2.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def feed(request):
+    user = request.user
+    following = Profile.objects.get(user = user).following.all()
+    posts = Post.objects.all()
+    posts = posts.order_by("-timestamp").all()
+
+    print(user)
+    print(following)
+    print(posts)
+
+    result = []
+    for post in posts:
+        if post.author in following:
+            result.append(post)
+
+    print(result)
+
+    return render(request, 'APP/newsfeed.html', 
+        {"posts":result,
+        "CommentForm": CommentForm})

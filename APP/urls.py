@@ -22,5 +22,7 @@ urlpatterns = [
     path("search/<str:query>", views.get_search_result, name="search_result"),
 
     path("like/<int:pk>", views.like, name="like"),
-    path("comment/<int:pk>", views.comment, name="comment")
+    path("comment/<int:pk>", views.comment, name="comment"),
+    path("follow/<str:following_user>/<str:followed_user>", views.follow, name="follow"),
+    path("feed", views.feed, name="feed")
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

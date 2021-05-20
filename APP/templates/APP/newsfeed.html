@@ -4,35 +4,6 @@
 {% block title %}News Feed{% endblock %}
 
 {% block body %}
-    <div class="profile-container">
-        <div class="row" style="text-align: center;">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">{{user_data.username}}</div>
-            <div class="col-sm-2"></div>
-        </div>
-        <div class="row" style="text-align: center;">
-            <div class="col-sm">Followers</div>
-            <div class="col-sm"></div>
-            <div class="col-sm">Following</div>
-        </div>
-        <div class="row" style="text-align: center;">
-            <div class="col-sm">{{followers}}</div>
-            {% if user.is_authenticated and user_data != user %}
-                {% if user in profile.followers.all %}
-                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Unfollow"/>
-                    </form>
-                {% else %}
-                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Follow"/>
-                    </form>
-                {% endif %}
-            {% endif %}
-            <div class="col-sm">{{following}}</div>
-        </div>
-    </div>
 
     <div id='posts-box' class="container-sm">
         {% for post in posts %}

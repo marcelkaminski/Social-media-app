@@ -34,3 +34,10 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey("User", on_delete=models.CASCADE, related_name="comments")
     content = models.TextField(blank=True, null=True)
+
+
+class Profile(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    following = models.ManyToManyField(User, blank=True, null=True, related_name="following")
+    followers = models.ManyToManyField(User, blank=True, null=True, related_name="followers")
