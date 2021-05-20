@@ -7,37 +7,54 @@
     <div id='user-data'>
         <h1>{{ user_data.username }}'s Profile<h1>
     </div>
-    <div id="App" style="width:50%; margin: auto;"></div>
     <!--
-    <div id='posts'>
+    <div id="App" style="width:50%; margin: auto;"></div>
+    -->
+    <div id='posts-box' class="container-sm">
         {% for post in posts %}
-            <div class='card w-75'>
-                <li>
-                    {{ post.serialize }}
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}">
+            <div class="card w-75">
+                <div class="card-header">
+                {{post.author}} | {{post.timestamp}} | {{post.id}}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{post.content}}</p>
+                    {% if post.image.url is not None %}
+                        <img class="card-img-bottom" src={{post.image.url}} alt="Card image cap"></img><br/>
                     {% endif %}
-                </li>
-              
-            {% if user.is_authenticated %}
-                {% if request.user in post.likes.all %}
-                    <form action={% url 'like' pk=post.id %} method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Unlike"/>
-                    </form>
-                {% else %}
-                    <form action={% url 'like' pk=post.id %} method="post">
-                    {% csrf_token %}
-                    <input type="submit" value="Like"/>
-                    </form>
+                
+                {% if user.is_authenticated %}
+                    <div id='like_container'>
+                        {% if request.user in post.likes.all %}
+                            <form action={% url 'like' pk=post.id %} method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Unlike"/>
+                            </form>
+                        {% else %}
+                            <form action={% url 'like' pk=post.id %} method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Like"/>
+                            </form>
+                        {% endif %}
+                        Likes: {{post.likes.count}}
+                    </div>
+                    <div id='comment_container'>
+                        <form action={% url 'comment' pk=post.id %} method="post">
+                        {% csrf_token %}
+                        {{CommentForm}}
+                        <input type="submit" value="Comment"/>
+                        </form>
+                        {% if post.comments %}
+                            {% for comment in post.comments.all %}
+                                {{ comment.author }}| {{ comment.timestamp }}|{{ comment.content }}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 {% endif %}
-            {% endif %}
-            Likes: {{post.likes.count}}
-             
+                </div>
             </div>
         {% endfor %}
     </div>
-    -->
+    
 {% endblock %}
 
 {% block script %}

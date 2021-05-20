@@ -6,8 +6,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
 
-from .models import User, Post
-from .forms import PostForm
+from .models import User, Post, Comment
+from .forms import PostForm, CommentForm
 
 
 def login_view(request):
@@ -117,8 +117,9 @@ def get_profile_view(request, name):
 
     return render(request, "APP/profile.html",
     {
-        "user_data": user.serialize(),
-        "posts": posts
+        "user_data": user,
+        "posts": posts,
+        "CommentForm": CommentForm
 
     })
 
@@ -135,4 +136,17 @@ def like(request, pk):
         post.likes.remove(request.user)
     else:
         post.likes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def comment(request, pk):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            user = User.objects.get(username=request.user)
+            obj.author = user
+            obj.save()
+            post = get_object_or_404(Post, id=pk)
+            post.comments.add(obj)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
