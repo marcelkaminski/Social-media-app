@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 import json
 
 from .models import User, Post, Comment, Profile
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, UpdatePostForm
 
 
 def login_view(request):
@@ -184,10 +184,6 @@ def feed(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
 
-    print(user)
-    print(following)
-    print(posts)
-
     result = []
     for post in posts:
         if post.author in following:
@@ -196,3 +192,24 @@ def feed(request):
     return render(request, 'APP/newsfeed.html', 
         {"posts":result,
         "CommentForm": CommentForm})
+
+
+@login_required
+def edit(request, pk):
+    context = {}
+    user = User.objects.get(username=request.user)
+    post = get_object_or_404(Post, id=pk)
+
+    if request.method == "POST":
+        form = UpdatePostForm(request.POST or None,request.FILES or None, instance=post)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            context['succes_message'] = "Update"
+            post = obj
+        return redirect(f'/profile/{request.user}')
+
+    form = UpdatePostForm(initial = {"content": post.content, "image": post.image})
+    context["form"] = form
+    return render(request, "APP/edit.html", context)
+

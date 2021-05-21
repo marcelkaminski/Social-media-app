@@ -7,7 +7,7 @@
 {% block title %}News Feed{% endblock %}
 
 {% block body %}
-    <div class="container-sm border">
+    <div id="profile-container">
         {{user_data.username}}<br/>
         Followers: {{followers}}<br/>
         Following: {{following}}<br/>
@@ -31,6 +31,9 @@
             <div class="card w-75">
                 <div class="card-header">
                 {{post.author}} | {{post.timestamp}} | {{post.id}}
+                {% if user == post.author %}
+                    <a class="btn btn-danger" href="{% url 'edit' pk=post.id %}">Edit</a>
+                {% endif %}
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{post.content}}</p>
