@@ -1,0 +1,7 @@
+.not-visible {
+    display: none;
+}
+
+#profile-container{
+    border-style: solid; 
+}

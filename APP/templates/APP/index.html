@@ -1,24 +1,26 @@
 {% extends "APP/layout.html" %}
-{% load static %}
 
 {% block title %}News Feed{% endblock %}
 
 {% block script %}
+    {% load static %}
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="{% static 'APP/index.js' %}" type="text/babel"></script>
+    <script src="{% static 'index.js' %}" type="text/babel"></script>
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-
+<div id='Feed' style="width:50%; margin: auto;">
 <div id='App'></div>
 
 <div id='spinner-box' class='not-visible'>
     <div class='spinner-border text-primary' role='status'></div>
 </div>
-<div id='loading-box'>
-    <button class='btn btn-primary' id='load-btn'>Load More</button>
+<div id='loading-box' class="text-center">
+    <button class='btn btn-primary btn-lg' id='load-btn' >Load More</button>
+</div>
 </div>
 </div>
 {% endblock %}

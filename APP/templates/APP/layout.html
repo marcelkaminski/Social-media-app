@@ -1,21 +1,12 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>{% block title %}News Feed{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="{% static 'APP/styles.css' %}" rel="stylesheet">
-    <style>
-        .not-visible {
-            display: none;
-            }
-
-
-
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
     {% block script %}
+    {% load static %}
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
     {% endblock %}
 </head>
 <body>
@@ -24,22 +15,21 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="/">Social media app</a>
+    <a class="navbar-brand" href="#">Social media app</a>
 
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <form class="form-inline my-2 my-lg-0 mr-auto">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div>
+        <div style="position: absolute; right: 0px;">
+            <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'index' %}">All Posts</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'search' %}">Search</a>
             {% if user.is_authenticated %}
-            <a class="btn btn-warning" href="{% url 'add' %}">Add Post</a>
+            <a class="btn btn-success" href="{% url 'profile' name=user.username %}"><strong>{{user.username}}</strong></a>
+            <a class="btn btn-success" href="{% url 'feed' %}">News Feed</a>
+            <a class="btn btn-success" href="{% url 'add' %}">Add Post</a>
             <a class="btn btn-danger" href="{% url 'logout' %}">Log Out</a>
             {% else %}
             <a class="btn btn-success" href="{% url 'login' %}">Log In</a>
             <a class="btn btn-info" href="{% url 'register' %}">Register</a>
             {% endif %}
-
         </div>
     </div>
 </nav>

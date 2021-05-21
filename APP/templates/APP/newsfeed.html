@@ -7,33 +7,12 @@
 {% block title %}News Feed{% endblock %}
 
 {% block body %}
-    <div id="profile-container">
-        {{user_data.username}}<br/>
-        Followers: {{followers}}<br/>
-        Following: {{following}}<br/>
-        {% if user.is_authenticated and user_data != user %}
-            {% if user in profile.followers.all %}
-                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Unfollow"/>
-                </form>
-            {% else %}
-                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Follow"/>
-                </form>
-            {% endif %}
-        {% endif %}
-    </div>
 
-    <div id='posts-box' class="container-sm" >
+    <div id='posts-box' class="container-sm">
         {% for post in posts %}
             <div class="card w-75">
                 <div class="card-header">
-                {{post.author}} | {{post.timestamp}} | {{post.id}}
-                {% if user == post.author %}
-                    <a class="btn btn-danger" href="{% url 'edit' pk=post.id %}">Edit</a>
-                {% endif %}
+                {{post.id}} | <a href ="{% url 'profile' name=post.author %}">{{post.author}}</a> | {{post.timestamp}}
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{post.content}}</p>

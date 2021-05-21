@@ -1,12 +1,11 @@
 {% extends "APP/layout.html" %}
+{% block script %}
 {% load static %}
+<link href="{% static 'styles.css' %}" rel="stylesheet">
+<script src="{% static 'search.js' %}"></script>
+{% endblock %}
 
 {% block title %}Search{% endblock %}
-
-
-{% block script %}
-    <script src="{% static 'APP/search.js' %}"></script>
-{% endblock %}
 
 {% block body %}
 <h1> Search user </h1>

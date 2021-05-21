@@ -75,8 +75,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Social_media_app.wsgi.application'
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
 ]
 
 SOCIAL_AUTH_GITHUB_KEY = '413861647159bd4a5e55'

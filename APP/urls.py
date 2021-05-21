@@ -20,5 +20,10 @@ urlpatterns = [
     path("profileposts/<str:name>", views.get_profile_posts, name="get_profile_posts"),
     #get json of search result
     path("search/<str:query>", views.get_search_result, name="search_result"),
+
     path("like/<int:pk>", views.like, name="like"),
-    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("comment/<int:pk>", views.comment, name="comment"),
+    path("follow/<str:following_user>/<str:followed_user>", views.follow, name="follow"),
+    path("feed", views.feed, name="feed"),
+    path("edit/<int:pk>", views.edit, name="edit")
+    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
