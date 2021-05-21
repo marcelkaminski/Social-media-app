@@ -1,13 +1,13 @@
 {% extends "APP/layout.html" %}
-{% load static %}
 
 {% block title %}News Feed{% endblock %}
 
 {% block script %}
+    {% load static %}
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="{% static 'APP/index.js' %}" type="text/babel"></script>
+    <script src="{% static 'index.js' %}" type="text/babel"></script>
 {% endblock %}
 
 {% block body %}

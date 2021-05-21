@@ -25,4 +25,4 @@ urlpatterns = [
     path("comment/<int:pk>", views.comment, name="comment"),
     path("follow/<str:following_user>/<str:followed_user>", views.follow, name="follow"),
     path("feed", views.feed, name="feed")
-    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

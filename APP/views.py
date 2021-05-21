@@ -193,8 +193,6 @@ def feed(request):
         if post.author in following:
             result.append(post)
 
-    print(result)
-
     return render(request, 'APP/newsfeed.html', 
         {"posts":result,
         "CommentForm": CommentForm})

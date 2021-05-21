@@ -24,18 +24,33 @@ class Posts extends React.Component {
 
     render() {
         return (
-
+            
                 <div>
                     {this.state.posts && this.state.posts.map(post => {
-                        return <div class="card w-75">
-                                    <div class="card-header">
-                                    {post.author} | {post.timestamp} | {post.id}
+                        if(post.image != null)
+                        {
+                            return <div class="card w-75">
+                                        <div class="card-header">
+                                        {post.author} | {post.timestamp} | {post.id}
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">{post.content}</p>
+                                            <img class="card-img-bottom" src={post.image} alt="Card image cap"></img><br/>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">{post.content}</p>
-                                        <img class="card-img-bottom" src={post.image} alt="Card image cap"></img><br/>
+                        }
+                        else
+                        {
+                            return <div class="card w-75">
+                                        <div class="card-header">
+                                        {post.author} | {post.timestamp} | {post.id}
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">{post.content}</p>
+                                        </div>
                                     </div>
-                                </div>
+                        }
+
                     })}
                 </div>
 

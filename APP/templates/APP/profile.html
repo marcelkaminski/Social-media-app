@@ -1,40 +1,32 @@
 {% extends "APP/layout.html" %}
+{% block script %}
 {% load static %}
+<link href="{% static 'styles.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block title %}News Feed{% endblock %}
 
 {% block body %}
-    <div class="profile-container">
-        <div class="row" style="text-align: center;">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">{{user_data.username}}</div>
-            <div class="col-sm-2"></div>
-        </div>
-        <div class="row" style="text-align: center;">
-            <div class="col-sm">Followers</div>
-            <div class="col-sm"></div>
-            <div class="col-sm">Following</div>
-        </div>
-        <div class="row" style="text-align: center;">
-            <div class="col-sm">{{followers}}</div>
-            {% if user.is_authenticated and user_data != user %}
-                {% if user in profile.followers.all %}
-                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Unfollow"/>
-                    </form>
-                {% else %}
-                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Follow"/>
-                    </form>
-                {% endif %}
+    <div class="container-sm border">
+        {{user_data.username}}<br/>
+        Followers: {{followers}}<br/>
+        Following: {{following}}<br/>
+        {% if user.is_authenticated and user_data != user %}
+            {% if user in profile.followers.all %}
+                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Unfollow"/>
+                </form>
+            {% else %}
+                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Follow"/>
+                </form>
             {% endif %}
-            <div class="col-sm">{{following}}</div>
-        </div>
+        {% endif %}
     </div>
 
-    <div id='posts-box' class="container-sm">
+    <div id='posts-box' class="container-sm" >
         {% for post in posts %}
             <div class="card w-75">
                 <div class="card-header">
@@ -79,12 +71,4 @@
         {% endfor %}
     </div>
     
-{% endblock %}
-
-{% block script %}
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="{% static 'APP/ReactPost.js' %}" type="text/babel"></script>
-    <script> var url = "/profileposts/{{ user_data.username }}";</script>
 {% endblock %}
