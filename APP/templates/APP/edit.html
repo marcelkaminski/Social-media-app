@@ -4,10 +4,11 @@
 <link href="{% static 'styles.css' %}" rel="stylesheet">
 {% endblock %}
 {% block body %}
+{% load bootstrap %}
     <div>
         <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
-        {{form.as_p}}
-        <button type = 'submit'>Save</button>
+        {{form|bootstrap_horizontal:'col-md-4' }}
+        <button type = 'submit' class="btn btn-success">Save</button>
         </form>
     </div>
 

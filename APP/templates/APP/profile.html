@@ -4,68 +4,83 @@
 <link href="{% static 'styles.css' %}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}News Feed{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block body %}
-    <div id="profile-container">
-        {{user_data.username}}<br/>
-        Followers: {{followers}}<br/>
-        Following: {{following}}<br/>
-        {% if user.is_authenticated and user_data != user %}
-            {% if user in profile.followers.all %}
-                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Unfollow"/>
-                </form>
-            {% else %}
-                <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
-                {% csrf_token %}
-                <input type="submit" value="Follow"/>
-                </form>
+    <div class="col-lg-12 text-center profile-container">
+        <div class="p-2">
+            <h3>{{user_data.username}}</h3>
+        </div>
+        <div class="p-2">
+            <p><strong>{{followers}} </strong>followers  |  <strong>{{following}} </strong>following</p>
+        </div>
+        <div class="p-2">
+            {% if user.is_authenticated and user_data != user %}
+                {% if user in profile.followers.all %}
+                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action={% url 'follow' following_user=user_data.username followed_user=user.username %} method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Follow</button>
+                    </form>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
     </div>
 
-    <div id='posts-box' class="container-sm" >
+    <div class="container">
         {% for post in posts %}
-            <div class="card w-75">
+            <div class ="card">
                 <div class="card-header">
-                {{post.author}} | {{post.timestamp}} | {{post.id}}
+                <a href="{% url 'profile' name=post.author %}">{{post.author}}</a> | {{post.timestamp}}
                 {% if user == post.author %}
                     <a class="btn btn-danger" href="{% url 'edit' pk=post.id %}">Edit</a>
                 {% endif %}
                 </div>
                 <div class="card-body">
-                    <p class="card-text">{{post.content}}</p>
+                    <h3><p class="card-text">{{post.content}}</p></h3>
                     {% if post.image.url is not None %}
                         <img class="card-img-bottom" src={{post.image.url}} alt="Card image cap"></img><br/>
                     {% endif %}
-                
+                <h6>Likes: {{post.likes.count}}</h6>
                 {% if user.is_authenticated %}
-                    <div id='like_container'>
+                    <div>
                         {% if request.user in post.likes.all %}
                             <form action={% url 'like' pk=post.id %} method="POST">
                             {% csrf_token %}
-                            <input type="submit" value="Unlike"/>
+                            <button class="btn btn-primary" type="submit">Unlike</button>
                             </form>
                         {% else %}
                             <form action={% url 'like' pk=post.id %} method="post">
                             {% csrf_token %}
-                            <input type="submit" value="Like"/>
+                            <button class="btn btn-primary" type="submit">Like</button>
                             </form>
                         {% endif %}
-                        Likes: {{post.likes.count}}
                     </div>
-                    <div id='comment_container'>
+                    
+                    <div>
                         <form action={% url 'comment' pk=post.id %} method="post">
                         {% csrf_token %}
-                        {{CommentForm}}
-                        <input type="submit" value="Comment"/>
+                          <div class="form-group">
+                            {{CommentForm}}
+                        </div>
+                        <button class="btn btn-primary" type="submit">Comment</button>
                         </form>
-                        {% if post.comments %}
-                            {% for comment in post.comments.all %}
-                                {{ comment.author }}| {{ comment.timestamp }}|{{ comment.content }}
-                            {% endfor %}
+
+                        {% if post.comments.all %}
+                            <div class="card">
+                            <div class="card-header">
+                                Comments:
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for comment in post.comments.all %}
+                                    <li class="list-group-item">{{ comment.author }} | {{ comment.timestamp }} : {{ comment.content }}</li>
+                                {% endfor %}
+                            </ul>
+                            </div>
                         {% endif %}
                     </div>
                 {% endif %}
@@ -73,5 +88,5 @@
             </div>
         {% endfor %}
     </div>
-    
+</div> 
 {% endblock %}
