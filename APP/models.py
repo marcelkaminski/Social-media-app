@@ -35,7 +35,7 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_comments")
-    content = models.TextField(blank=True, null=True)
+    content = models.CharField(blank=True, null=True, max_length=100)
     
     def __str__(self):
         return f"{self.author.username} {self.content}"
